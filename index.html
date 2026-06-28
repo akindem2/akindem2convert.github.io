@@ -2,7 +2,7 @@
 <html>
 <body>
 <script>
-async function run() {
+async function convert() {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
 
@@ -13,28 +13,37 @@ async function run() {
 
     const shareUrl = `https://www.roblox.com/share?code=${code}&type=Server`;
 
-    try {
-        const response = await fetch(shareUrl, { redirect: "follow" });
+    // Open popup
+    const popup = window.open(shareUrl, "_blank", "width=400,height=400");
 
-        const finalUrl = response.url;
+    const interval = setInterval(() => {
+        try {
+            const url = popup.location.href;
 
-        const match = finalUrl.match(/privateServerLinkCode=([^&]+)/);
-        const placeMatch = finalUrl.match(/games\/(\d+)/);
+            // Detect redirect
+            if (url.includes("privateServerLinkCode")) {
+                clearInterval(interval);
+                popup.close();
 
-        const result = {
-            shareCode: code,
-            placeId: placeMatch ? placeMatch[1] : null,
-            privateServerLinkCode: match ? match[1] : null,
-            finalUrl: finalUrl
-        };
+                const placeId = url.match(/games\/(\d+)/)?.[1] || null;
+                const privateCode = url.match(/privateServerLinkCode=([^&]+)/)?.[1] || null;
 
-        document.body.innerText = JSON.stringify(result, null, 2);
-    } catch (e) {
-        document.body.innerText = "Error: " + e;
-    }
+                const result = {
+                    shareCode: code,
+                    placeId,
+                    privateServerLinkCode: privateCode,
+                    finalUrl: url
+                };
+
+                document.body.innerText = JSON.stringify(result, null, 2);
+            }
+        } catch (e) {
+            // Cross-origin until redirect finishes
+        }
+    }, 200);
 }
 
-run();
+convert();
 </script>
 </body>
 </html>
