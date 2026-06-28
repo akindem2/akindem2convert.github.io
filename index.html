@@ -5,69 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Private Server Link Converter</title>
     <style>
-        :root {
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #4b5563;
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
-            --success: #10b981;
-            --success-hover: #059669;
-            --border: #d1d5db;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .container {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            max-width: 500px;
-        }
-
+        :root { --bg-color: #f3f4f6; --card-bg: #ffffff; --text-main: #1f2937; --text-muted: #4b5563; --primary: #3b82f6; --primary-hover: #2563eb; --success: #10b981; --success-hover: #059669; --border: #d1d5db; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg-color); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .container { background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); width: 100%; max-width: 500px; }
         h1 { font-size: 1.5rem; margin-top: 0; margin-bottom: 0.5rem; text-align: center; }
-        p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem; text-align: center; line-height: 1.4; }
-        
+        p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem; text-align: center; }
         .input-group { margin-bottom: 1.5rem; }
         label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; }
-        
-        input[type="text"] {
-            width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px;
-            font-size: 1rem; box-sizing: border-box; outline: none; transition: 0.2s; font-family: monospace;
-        }
+        input[type="text"] { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; box-sizing: border-box; outline: none; transition: 0.2s; font-family: monospace; }
         input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
-
-        .btn-main {
-            width: 100%; background-color: var(--primary); color: white; border: none;
-            padding: 0.75rem; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s;
-        }
+        .btn-main { width: 100%; background-color: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .btn-main:hover { background-color: var(--primary-hover); }
         .btn-main:disabled { background-color: #9ca3af; cursor: not-allowed; }
-
         .result-group { margin-top: 2rem; display: none; animation: fadeIn 0.3s; }
         .result-item { margin-bottom: 1.25rem; background-color: #f9fafb; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); }
-        .result-item input { background-color: transparent; border: none; padding: 0; margin-bottom: 0.75rem; color: var(--text-muted); font-size: 0.8rem; }
-        
-        .btn-copy {
-            width: 100%; background-color: var(--success); color: white; border: none;
-            padding: 0.5rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: 0.2s;
-        }
+        .result-item input { background-color: transparent; border: none; padding: 0; margin-bottom: 0.75rem; color: var(--text-muted); font-size: 0.8rem; width: 100%; }
+        .btn-copy { width: 100%; background-color: var(--success); color: white; border: none; padding: 0.5rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .btn-copy:hover { background-color: var(--success-hover); }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -78,11 +32,11 @@
     <p>Converts a 32-character share code into the classic Private Server Link Code and deeplinks.</p>
 
     <div class="input-group">
-        <label for="shareCode">Enter Share Code / Share Link</label>
+        <label for="shareCode">Enter Share Code</label>
         <input type="text" id="shareCode" placeholder="e.g. 4423c60f3b2b9e46943b630b6f116f01" autocomplete="off">
     </div>
 
-    <button class="btn-main" id="generateBtn" onclick="convertCode()">Resolve Link Codes</button>
+    <button class="btn-main" id="generateBtn" onclick="resolveCode()">Resolve Link Codes</button>
 
     <div class="result-group" id="resultGroup">
         <div class="result-item">
@@ -90,32 +44,26 @@
             <input type="text" id="rawLinkCode" readonly>
             <button class="btn-copy" onclick="copyToClipboard('rawLinkCode', this)">Copy Raw Code</button>
         </div>
-
         <div class="result-item">
-            <label>🚀 Classic App Deeplink (Direct Join)</label>
+            <label>🚀 Classic App Deeplink</label>
             <input type="text" id="classicDeepLink" readonly>
             <button class="btn-copy" onclick="copyToClipboard('classicDeepLink', this)">Copy Classic Deeplink</button>
-        </div>
-        
-        <div class="result-item">
-            <label>🌐 Share App Deeplink (New Format)</label>
-            <input type="text" id="newDeepLink" readonly>
-            <button class="btn-copy" onclick="copyToClipboard('newDeepLink', this)">Copy New Deeplink</button>
         </div>
     </div>
 </div>
 
 <script>
-    async function convertCode() {
+    // ⚠️ IMPORTANT: Replace this with the URL you got from Render! 
+    // Example: const API_URL = "https://roblox-resolver-api.onrender.com/resolve?code=";
+    const API_URL = "YOUR_RENDER_URL_HERE/resolve?code=";
+
+    async function resolveCode() {
         let inputVal = document.getElementById('shareCode').value.trim();
         let code = "";
         
         const hexMatch = inputVal.match(/[a-fA-F0-9]{32}/);
-        if (hexMatch) {
-            code = hexMatch[0];
-        } else {
-            code = inputVal.replace(/[^a-zA-Z0-9]/g, '');
-        }
+        if (hexMatch) { code = hexMatch[0]; } 
+        else { code = inputVal.replace(/[^a-zA-Z0-9]/g, ''); }
 
         if (code.length !== 32) {
             alert('Invalid input! Please enter a valid 32-character Roblox share code.');
@@ -123,44 +71,26 @@
         }
 
         const btn = document.getElementById('generateBtn');
-        btn.textContent = "Resolving with Roblox...";
+        btn.textContent = "Resolving via Server...";
         btn.disabled = true;
 
         try {
-            // Step 1: Format the normal share URL
-            const shareUrl = `https://www.roblox.com/share?code=${code}&type=Server`;
-            
-            // Step 2: Use a CORS proxy to bypass browser restrictions. 
-            // We fetch the share URL and let Roblox redirect us to the game page.
-            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(shareUrl)}`;
-            
-            const response = await fetch(proxyUrl);
-            const finalDestinationUrl = response.url; // This holds the redirected URL
-            
-            // Step 3: Extract the Place ID and the hidden privateServerLinkCode from the final URL
-            const psCodeMatch = finalDestinationUrl.match(/privateServerLinkCode=([0-9a-zA-Z]+)/);
-            const placeIdMatch = finalDestinationUrl.match(/games\/(\d+)\//);
+            // Call our new custom backend
+            const response = await fetch(`${API_URL}${code}`);
+            const data = await response.json();
 
-            let privateServerLinkCode = psCodeMatch ? psCodeMatch[1] : null;
-            let placeId = placeIdMatch ? placeIdMatch[1] : null;
-
-            if (!privateServerLinkCode) {
-                // Fallback in case corsproxy fails to follow the redirect natively
-                throw new Error("Could not extract privateServerLinkCode. The proxy might be blocked.");
+            if (!data.success) {
+                throw new Error(data.error || "Failed to resolve code.");
             }
 
-            // Step 4: Generate the links
-            const classicDeepLink = `roblox://experiences/start?placeId=${placeId}&gameInstanceId=${privateServerLinkCode}`;
-            const newDeepLink = `roblox://navigation/share_links?code=${code}&type=Server`;
+            const classicDeepLink = `roblox://experiences/start?placeId=${data.placeId}&gameInstanceId=${data.privateServerLinkCode}`;
 
-            // Step 5: Update the UI
-            document.getElementById('rawLinkCode').value = privateServerLinkCode;
+            document.getElementById('rawLinkCode').value = data.privateServerLinkCode;
             document.getElementById('classicDeepLink').value = classicDeepLink;
-            document.getElementById('newDeepLink').value = newDeepLink;
             document.getElementById('resultGroup').style.display = 'block';
 
         } catch (error) {
-            alert('Failed to resolve link. Roblox might be blocking the proxy, or the share code is invalid/expired.');
+            alert('Error: ' + error.message);
             console.error(error);
         } finally {
             btn.textContent = "Resolve Link Codes";
@@ -172,22 +102,11 @@
         const input = document.getElementById(elementId);
         input.select();
         input.setSelectionRange(0, 99999); 
-        
         navigator.clipboard.writeText(input.value).then(() => {
             const originalText = btnElement.textContent;
             btnElement.textContent = "✅ Copied!";
             setTimeout(() => { btnElement.textContent = originalText; }, 2000);
-        }).catch(err => alert('Failed to copy.'));
-    }
-
-    // Automatically run if a code is in the URL parameter (?code=XYZ)
-    window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const codeParam = urlParams.get('code');
-        if (codeParam) {
-            document.getElementById('shareCode').value = codeParam;
-            convertCode();
-        }
+        });
     }
 </script>
 
