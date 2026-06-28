@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+async function run() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    if (!code) {
+        document.body.innerText = "Error: No share code provided.";
+        return;
+    }
+
+    const shareUrl = `https://www.roblox.com/share?code=${code}&type=Server`;
+
+    try {
+        const response = await fetch(shareUrl, { redirect: "follow" });
+
+        const finalUrl = response.url;
+
+        const match = finalUrl.match(/privateServerLinkCode=([^&]+)/);
+        const placeMatch = finalUrl.match(/games\/(\d+)/);
+
+        const result = {
+            shareCode: code,
+            placeId: placeMatch ? placeMatch[1] : null,
+            privateServerLinkCode: match ? match[1] : null,
+            finalUrl: finalUrl
+        };
+
+        document.body.innerText = JSON.stringify(result, null, 2);
+    } catch (e) {
+        document.body.innerText = "Error: " + e;
+    }
+}
+
+run();
+</script>
+</body>
+</html>
